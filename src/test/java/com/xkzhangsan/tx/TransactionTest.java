@@ -11,7 +11,7 @@ public class TransactionTest extends ExampleConfigurationTests{
 	private AccountService accountService;
 	
     @Test
-    public void testNoTransaction(){
+    public void testTransaction(){
         //Tom 向 Marry 转账1000
     	accountService.transfer("Tom", "Marry", 1000);
     }
