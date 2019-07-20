@@ -28,27 +28,16 @@
         <property name="accountDao" ref="accountDao"></property>
     </bean>
     
-    <!-- 1 事务管理器 -->
+	<!-- 1 事务管理器 -->
     <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource"></property>
     </bean>
-     
-    <!-- 2 事务详情（事务通知）  ， 在aop筛选基础上，比如对ABC三个确定使用什么样的事务。例如：AC读写、B只读 等
-        <tx:attributes> 用于配置事务详情（属性属性）
-            <tx:method name=""/> 详情具体配置
-                propagation 传播行为 ， REQUIRED：必须；REQUIRES_NEW:必须是新的
-                isolation 隔离级别
+    <!-- 2 将管理器交予spring
+        * transaction-manager 配置事务管理器
+        * proxy-target-class
+            true ： 底层强制使用cglib 代理
     -->
-    <tx:advice id="txAdvice" transaction-manager="txManager">
-        <tx:attributes>
-            <tx:method name="transfer" propagation="REQUIRED" isolation="DEFAULT"/>
-        </tx:attributes>
-    </tx:advice>
-     
-    <!-- 3 AOP编程，利用切入点表达式从目标类方法中 确定增强的连接器，从而获得切入点 -->
-    <aop:config>
-        <aop:advisor advice-ref="txAdvice" pointcut="execution(* com.xkzhangsan.tx.service..*.*(..))"/>
-    </aop:config>    
+    <tx:annotation-driven transaction-manager="txManager" proxy-target-class="true"/>    
      
 
 </beans>
